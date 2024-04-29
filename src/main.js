@@ -7,8 +7,24 @@ const Player = require("./domain/Player.js");
     `🏁🚗 Corrida entre ${player1._nome} e ${player2._nome} começando`
   );
   start(player1, player2);
+  declaresWinnerBetween(player1, player2);
 })();
+function declaresWinnerBetween(player1, player2) {
+  console.log("Pontuação Final");
+  console.log(`${player1._nome} : ${player1._pontos} ponto(s)`);
+  console.log(`${player2._nome} : ${player2._pontos} ponto(s)`);
 
+  if (player1._pontos > player2._pontos) {
+    console.log(`👑 ${player1._nome} foi vencedor!!`);
+    return;
+  }
+
+  if (player1._pontos < player2._pontos) {
+    console.log(`👑 ${player2._nome} foi vencedor!!`);
+    return;
+  }
+  console.log("Empatou");
+}
 function start(player1, player2) {
   for (let round = 1; round <= 5; round++) {
     console.log(`🚩 Rodada ${round}`);
