@@ -21,7 +21,7 @@ function start(player1, player2) {
 
     let totalTestSkill1 = diceResult1;
     let totalTestSkill2 = diceResult2;
-    let diceType, attr1, attr2;
+    let diceType, attr1, attr2, powerResult1, powerResult2;
 
     if (block === "RETA") {
       totalTestSkill1 += player1._velocidade;
@@ -31,8 +31,14 @@ function start(player1, player2) {
       attr2 = player2._velocidade;
     }
     if (block === "CONFRONTO") {
-      let powerResult = (totalTestSkill1 += player1._velocidade);
-      diceType = "ataque";
+      powerResult1 = totalTestSkill1 + player1._poder;
+      powerResult2 = totalTestSkill1 + player2._poder;
+      diceType = "poder";
+
+      console.log(`⚔️ ${player1._nome} confrontou com ${player2._nome}`);
+
+      attr1 = player1._poder;
+      attr2 = player1._poder;
     }
     if (block === "CURVA") {
       totalTestSkill1 += player1._manobrabilidade;
@@ -44,14 +50,32 @@ function start(player1, player2) {
     logRollResult(player1._nome, diceType, diceResult1, attr1);
     logRollResult(player2._nome, diceType, diceResult2, attr2);
 
-    if (totalTestSkill1 > totalTestSkill2) {
-      console.log(`${player1._nome} ganhou um ponto`);
-      player1._pontos++;
-    } else if (totalTestSkill2 > totalTestSkill1) {
-      console.log(`${player2._nome} ganhou um ponto`);
-      player2._pontos++;
+    if (diceType !== "poder") {
+      if (totalTestSkill1 > totalTestSkill2) {
+        console.log(`${player1._nome} ganhou um ponto`);
+        player1._pontos++;
+      } else if (totalTestSkill2 > totalTestSkill1) {
+        console.log(`${player2._nome} ganhou um ponto`);
+        player2._pontos++;
+      }
+    } else {
+      if (powerResult1 > powerResult2) {
+        if (player2._pontos > 0) {
+          console.log(`${player2._nome} perdeu um ponto`);
+          player2._pontos--;
+        }
+        console.log(`${player1._nome} ganhou o confronto`);
+      }
+      if (powerResult2 > powerResult1) {
+        if (player1._pontos > 0) {
+          console.log(`${player1._nome} perdeu um ponto`);
+          player1._pontos--;
+        }
+        console.log(`${player2._nome} ganhou o confronto`);
+      } else {
+        console.log("Confronto empatado! Nenhum ponto perdido.");
+      }
     }
-
     console.log("----------------------");
   }
 }
